@@ -16,10 +16,12 @@ class Array{
         Array<T>& operator =(Array<T>&&);
     public:
         T get_element(int const);
-        int get_size();
+        int size();
         void rand_init();
         T& operator [](int);
         T& at(int);
+        void push_back(T);
+        void pop_back();
 };
 
 template <typename T>
@@ -29,7 +31,7 @@ Array<T>::Array(int const size){
         abort();
     }
     this->m_size = size;
-    m_arr = new int[this->m_size];
+    m_arr = new T[this->m_size];
 }
 
 template <typename T>
@@ -97,7 +99,7 @@ void Array<T>::rand_init(){
 }
 
 template <typename T>
-int Array<T>::get_size(){
+int Array<T>::size(){
     return m_size;
 }
 
@@ -113,4 +115,28 @@ T& Array<T>::at(int i){
         abort();
     }
     return m_arr[i];
+}
+
+template <typename T>
+void Array<T>::push_back(T t){
+    T* temp = new T[m_size+1];
+    for (int i = 0; i < m_size; i++){
+        temp[i] = m_arr[i];
+    }
+    temp[m_size++] = t;
+    delete[] m_arr;
+    m_arr = temp;
+    temp = nullptr;
+}
+
+template <typename T>
+void Array<T>::pop_back(){
+    T* temp = new T[m_size-1];
+    for (int i = 0; i < m_size; i++){
+        temp[i] = m_arr[i];
+    }
+    m_size--;
+    delete[] m_arr;
+    m_arr = temp;
+    temp = nullptr;
 }
